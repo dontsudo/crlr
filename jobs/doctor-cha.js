@@ -1,5 +1,5 @@
-const DoctorCha = require("../lib/sites/doctor-cha.com/client.js");
-const logger = require("../lib/logger.js");
+const DoctorCha = require("../lib/sites/doctor-cha.com/client");
+const logger = require("../lib/logger");
 
 const retrievePostsAndComments = async () => {
   const doctorcha = new DoctorCha();
@@ -49,7 +49,7 @@ const retrievePostsAndComments = async () => {
           });
         }
 
-        logger.info(`닥터차 포스트 정보 수집 중...: ${id}`);
+        logger.info(`닥터차 게시글 수집 중...: ${id}`);
       }
 
       nextCursor = postsList.pageInfo.endCursor;
