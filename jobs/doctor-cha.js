@@ -16,7 +16,7 @@ const retrievePostsAndComments = async () => {
           after: nextCursor,
         },
       });
-      for (const post of postsList.posts) {
+      for (const post of postsList?.posts) {
         const id = post.id; // Make sure the property is named correctly
         const { data: postData } = await doctorcha.posts.retrieve({
           variables: {

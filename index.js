@@ -6,6 +6,7 @@ const {
   createExcelSheet,
   objectToMultipleSheetExcel,
 } = require("./lib/helpers.js");
+const logger = require("./lib/logger.js");
 
 const MAX_RETRIES = 3; // Maximum number of retries for each job
 
@@ -14,47 +15,46 @@ async function retryJob(jobFunction, jobName) {
   while (retries < MAX_RETRIES) {
     try {
       const result = await jobFunction();
-      console.log(`${jobName} succeeded on attempt ${retries + 1}`);
+      logger.info(`${jobName} succeeded on attempt ${retries + 1}`);
       return result;
     } catch (error) {
-      console.error(`${jobName} failed on attempt ${retries + 1}: ${error}`);
+      logger.error(`${jobName} failed on attempt ${retries + 1}: ${error}`);
       retries++;
     }
   }
 
-  console.error(`${jobName} failed after ${MAX_RETRIES} attempts`);
+  logger.error(`${jobName} failed after ${MAX_RETRIES} attempts`);
   return null; // You can handle this case as needed
 }
 
 async function runJobs() {
   const danawaResult = await retryJob(
     retrieveCarsInformation,
-    "retrieveCarsInformation"
+    "다나와 신차정보"
   );
-  if (danawaResult) {
+  if (danawaResult)
     createExcelSheet("danawa.xlsx", "다나와 신차정보", danawaResult);
-  }
 
   const doctorChaResult = await retryJob(
     retrievePostsAndComments,
-    "retrievePostsAndComments"
+    "닥터차 게시글 및 댓글"
   );
-  if (doctorChaResult) {
+  if (doctorChaResult)
     createExcelSheet("doctor-cha.xlsx", "닥터차 포스트", doctorChaResult);
-  }
 
-  const termsNaverResult = await retryJob(retrieveCarTerms, "retrieveCarTerms");
-  if (termsNaverResult) {
+  const termsNaverResult = await retryJob(
+    retrieveCarTerms,
+    "네이버 자동차 용어사전"
+  );
+  if (termsNaverResult)
     createExcelSheet("terms-naver.xlsx", "네이버 사전용어", termsNaverResult);
-  }
 
   const dsmotorsResult = await retryJob(
     retrieveGongimTables,
-    "retrieveGongimTables"
+    "공임 테이블 리스트"
   );
-  if (dsmotorsResult) {
+  if (dsmotorsResult)
     objectToMultipleSheetExcel("dsmotors.xlsx", dsmotorsResult);
-  }
 }
 
 runJobs();
