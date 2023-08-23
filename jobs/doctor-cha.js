@@ -17,7 +17,7 @@ const retrievePostsAndComments = async () => {
         },
       });
 
-      if (!postsList || postsList.posts.length === 0) {
+      if (!postsList || !postsList.posts || postsList.posts.length === 0) {
         break;
       }
 
