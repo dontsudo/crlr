@@ -1,16 +1,29 @@
 {
   "name": "crlr",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
+  "bin": {
+    "app": "./index.js"
   },
-  "license": "ISC",
+  "pkg": {
+    "outputPath": "dist"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "build": "pkg ."
+  },
+  "license": "MIT",
   "dependencies": {
-    "axios": "^1.4.0",
+    "axios": "^0.27.2",
     "cheerio": "1.0.0-rc.12",
+    "exceljs": "^4.3.0",
+    "html-tables-to-json": "^0.0.3",
+    "html-to-xlsx": "^2.2.4",
+    "winston": "^3.10.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   }
 }

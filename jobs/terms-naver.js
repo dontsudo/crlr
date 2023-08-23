@@ -1,6 +1,7 @@
-import TermsNaver from "../lib/sites/terms.naver.com/client.js";
+const TermsNaver = require("../lib/sites/terms.naver.com/client.js");
+const logger = require("../lib/logger.js");
 
-export const retrieveCarTerms = async () => {
+const retrieveCarTerms = async () => {
   const termsnaver = new TermsNaver();
   const result = [];
 
@@ -25,14 +26,12 @@ export const retrieveCarTerms = async () => {
           params: termUrl.searchParams,
         });
 
-        console.log(termData);
-
         result.push({
           title: termData.title,
           description: termData.description,
         });
 
-        console.log(
+        logger.info(
           `네이버 용어 수집 중...: ${termUrl.searchParams.get("docId")}`
         );
       }
@@ -40,8 +39,10 @@ export const retrieveCarTerms = async () => {
       page++;
     }
   } catch (error) {
-    console.error("An error occurred:", error);
+    logger.error("An error occurred:", error);
   }
 
   return result;
 };
+
+module.exports = { retrieveCarTerms };

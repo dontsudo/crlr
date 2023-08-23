@@ -1,6 +1,6 @@
-import DanawaAuto from "../lib/sites/auto.danawa.com/client.js";
+const DanawaAuto = require("../lib/sites/auto.danawa.com/client.js");
 
-export const retrieveCarsInformation = async () => {
+const retrieveCarsInformation = async () => {
   const danawa = new DanawaAuto();
   const result = [];
 
@@ -30,3 +30,5 @@ export const retrieveCarsInformation = async () => {
 
   return result;
 };
+
+module.exports = { retrieveCarsInformation };
