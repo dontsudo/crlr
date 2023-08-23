@@ -1,9 +1,13 @@
-import { retrieveCarsInformation } from "./jobs/danawa.js";
-import { retrievePostsAndComments } from "./jobs/doctor-cha.js";
-import { retrieveCarTerms } from "./jobs/terms-naver.js";
-import { createExcelSheet } from "./lib/helpers.js";
+const { retrieveCarsInformation } = require("./jobs/danawa.js");
+const { retrievePostsAndComments } = require("./jobs/doctor-cha.js");
+const { retrieveCarTerms } = require("./jobs/terms-naver.js");
+const { retrieveGongimTables } = require("./jobs/dsmotors.js");
+const {
+  createExcelSheet,
+  objectToMultipleSheetExcel,
+} = require("./lib/helpers.js");
 
-async function bootstrap() {
+async function run() {
   retrieveCarsInformation().then((result) => {
     createExcelSheet("danawa.xlsx", "다나와 신차정보", result);
   });
@@ -15,6 +19,10 @@ async function bootstrap() {
   retrieveCarTerms().then((result) => {
     createExcelSheet("terms-naver.xlsx", "네이버 사전용어", result);
   });
+
+  retrieveGongimTables().then((result) => {
+    objectToMultipleSheetExcel("dsmotors.xlsx", result);
+  });
 }
 
-bootstrap();
+run();
